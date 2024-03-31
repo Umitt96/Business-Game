@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>İşletme oyunu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href= "https://cdn.jsdelivr.net/npm/billboard.js/dist/billboard.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-5">
+            <button class="mx-3 btn btn-outline-secondary d-flex justify-content-center" data-bs-toggle="modal" data-bs-target="#myModal3"><i class="fa fa-gear"></i></button>
+              <!-- Modal3 -->
+              <div class="modal" id="myModal3">
+                <div class="modal-dialog modal-lg">
+                <div class="modal-content p-3">
+            
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                    <h4 class="modal-title">Yapımcı hakkında</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+            
+                    <div class="modal-body">
+                        <h4>Tasarlayan ve kodlayan: Ümit Kaya (Ritalin)</h4>
+                       <hr>
+                       <h4>Baz alınan oyunlar;</h4>
+                       <a href="https://play.google.com/store/apps/details?id=com.florapp.ticaretoyunufabrikayonet&hl=tr&gl=US">Manage Factory</a><br>
+                        <a href="https://play.google.com/store/apps/details?id=com.candywriter.bitlife">Bitlife</a><br>
+                       <a href="https://www.9apps.com/tr/android-games/Hobo-Life-Simulator/">Evsiz hayat simulator</a>
+                    </div>
+            
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" > Youtube Kanalı</button>
+                    </div>
+            
+                </div>
+                </div>
+            </div>
+            <!-- Modal3 -->
+            <a class="navbar-brand" id="companyName" >Şirket Adı </a>
+            <div class="navbar-collapse">
+            
+            </div>
+            <span class="navbar-text px-2">Saniyede <span id="PPerSec">1</span> <span class="itemName"> ürün</span> |</span>
+            <span class="navbar-text px-2 nav-2 text-center">Toplam Para: <span id="wallet">0</span> ₺ </span>
+            <span class="navbar-text px-2">| <i class="fa fa-star" tooltip="seviye"> </i> <span id="level">3</span>
+            <span></span>
+            </span>
+        </nav>
+
+
+        <button type="button" class="hide" data-bs-toggle="modal"  data-bs-target="#exampleModal" id="startGame"> </button>
+        <!-- Ayarlar Modal -->
+        <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h3 class="modal-title">Yeni oyuna başla</h3>
+                </div>
+                <div class="modal-body">
+                <div class="mb-3">
+                    <label for="companyInput" class="form-label">Şirket Adı:</label>
+                    <input type="text" class="form-control" id="companyInput" placeholder="Anonim" >
+                </div>
+                <div class="mb-3">
+                    <label for="sectorSelect" class="form-label">Sektör Seçimi:</label>
+                    <select class="form-select" id="sectorSelect">
+                    <option value="kimbap">Yemek</option>
+                    <option value="gömlek">Tekstil</option>
+                    <option value="bilgisayar">Elektronik</option>
+                    <option value="araba">Otomotiv</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Oyun Zorluğu:</label>
+                    <div class="container mx-2">
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="difficultyRadio" id="normalRadio" value="normal" checked>
+                                    <label class="form-check-label" for="normalRadio">Normal</label>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="difficultyRadio" id="hardRadio" value="hard">
+                                    <label class="form-check-label" for="hardRadio">Zor</label>
+                                </div>
+                            </div>
+                        </div>
+                       
+                      
+                    </div>
+                    
+                </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="startGame()">Uygula</button>
+                </div>
+            </div>
+            </div>
+        </div>
+      
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-md-5 col-sm-6">
+                    <div class="tab container">
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'home')">
+                            <span>Genel Bakış</span> <i class="fa fa-home"></i>
+                        </button>
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'people')">
+                            İnsan Kaynakları <i class="fa fa-user"></i>
+                        </button>
+                        <h2 class="tablink-title">Lojistik</h2>
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'stock')">
+                            Ham madde <i class="fa fa-scale-unbalanced"></i>
+                        </button>
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'warehouse')">
+                            Depo yönetimi <i class="fa fa-warehouse"></i>
+                        </button>
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'sell')">
+                            Satış departmanı <i class="fa fa-dollar"></i>
+                        </button>
+                        <h2 class="tablink-title">Mali işler</h2>
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'tax_G')">
+                            Vergi dairesi <i class="fa fa-receipt"></i>
+                        </button>
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'bank')">
+                            Banka <i class="fa fa-bank"></i>
+                        </button>
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'assets')" id="defaultOpen">
+                            Gayrimenkul <i class="fa fa-bank"></i>
+                        </button>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-7 col-sm-6">
+                    
+                    <div id="home" class="tabcontent container-fluid">
+                        <div class="p-4">
+                            <div class="tab-title">
+                                <h2>Ürünler</h2>
+                                <hr>
+                            </div>
+
+                            <div class="card-area">
+                                <div class="row text-start">
+                                    <div class="col">
+                                      <div class="card m-2 product-area">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <p class="card-text">Toplam  <span class="itemName">ürün</span></p>
+                                                  <h5 class="card-title" id="productDisplay">0</h5>
+                                                   <!-- Progress bar -->
+                                                   <div class="progress mt-3">
+                                                    <div class="progress-bar" id="wareHouseBar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" ></div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-3 text-center">
+                                                    <i class="fa fa-clone card-icon mt-3 mr-2"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card m-2 product-area">
+                                            <div class="card-body">
+                                              <div class="row">
+                                                <div class="col-9">
+                                                  <p class="card-text">Satış fiyatı</p>
+                                                  <h5 class="card-title" id="sale-price2">00</h5> 
+                                                  <!-- Progress bar -->
+                                                  <div class="progress mt-3">
+                                                    <div class="progress-bar" id="salePriceBar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="1"></div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-3 text-center">
+                                                  <i class="fa fa-dollar card-icon mt-3 mr-2"></i>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          
+                                    </div>
+                                    <div class="col">
+                                        <div class="card m-2 product-area">
+                                            <div class="card-body">
+                                              <div class="row">
+                                                <div class="col-9">
+                                                  <p class="card-text">Ham madde (birim)</p>
+                                                  <h5 class="card-title" id="rawMade">0</h5>
+                                                  <!-- Progress bar -->
+                                                  <div class="progress mt-3">
+                                                    <div class="progress-bar" id="rawMadeBar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="1000"></div>
+                                                  </div>
+                                                </div>
+                                                <div class="col-3 text-center">
+                                                  <i class="fa fa-box card-icon mt-3 mr-2"></i>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btn-area d-flex align-center justify-content-center">
+                                <button class="btn my-5" id="buy_btn" onclick="Sell()">Tüm ürünleri sat</button>
+                            </div>
+
+
+                            <div class="bottom-area">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div class="finance">
+                                
+                                            <div class="tab-title">
+                                                <h2>Finans</h2>
+                                                <hr>
+                                            </div>
+                                                <div class="container">
+                                                    <div class="card-area">
+                                                        <div class="row text-center">
+                                                            <div class="col">
+                                                              <div class="card my-2">
+                                                                <div class="card-body">
+                                                                  <p class="card-text text-start">Vergi dairesine toplam borç:</p>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col">
+                                                              <div class="card my-2">
+                                                                <div class="card-body text-start bg-success"> <!-- renkler sonra değişecek --> 
+                                                                  <p class="card-text text-light text-center" id="tax">Güncel Borç bulunmamaktadır!</p>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                        
+                                                    <div class="card-area">
+                                                        <div class="row text-center">
+                                                            <div class="col">
+                                                              <div class="card my-2">
+                                                                <div class="card-body">
+                                                                  <p class="card-text text-start">Bankaya toplam borç:</p>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col">
+                                                              <div class="card my-2">
+                                                                <div class="card-body text-start bg-danger"><!-- renkler sonra değişecek --> 
+                                                                  <p class="card-text text-light">Güncel Borç bulunmamaktadır!</p>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="personals">
+                                    
+                                            <div class="tab-title">
+                                                <h2>İşçi sağlığı</h2>
+                                                <hr>
+                                            </div>
+                                                <div class="container">
+                        
+                                                    <div class="card-area text-left">
+                                                              <div class="card my-2">
+                                                                <div class="card-body">
+                                                                    <p>Toplam işçi sayısı: <span id="totalWorkers">0</span></p>
+                                                                    
+                                                                    <div class="progress my-4">
+                                                                        <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 30%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    </div>
+                                                                <p>İşçiler halinden memnun görünüyor!</p>
+                                                                </div>
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                        </div>
+
+                    </div>
+                    
+                    <div id="people" class="tabcontent container-fluid">
+                        <div class="p-4">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="tab-title">
+                                                <h2>İşe alım</h2>
+                                                <hr>
+                                            </div>
+                                            <!-- Bu kısım Js ile eklenecek -->
+                                                <div class="card-area">
+                                                    <div class="row text-start">
+                                                        <div class="col">
+                                                        <div class="card m-1">
+                                                            <div class="card-body  worker">
+                                                                
+                                                                <div class="row">
+                                                                    <div class="col-2"><img src="img/worker (1).png" width="80px" alt=""></div>
+                                                                    <div class="col-7">
+                                                                        <h2>Çırak</h2>
+                                                                        <p class="worker">Ben saniyede <span>1</span> <span class="itemName">ürün</span> yaparım</p>
+                                                                    </div>
+                                                                    <div class="col-3 text-center">
+                                                                        <button class="btn buy-worker greenButton" id="startBTN" data-price="10000" onclick="buyWorker(1,10000)">Satın al</button>
+                                                                        <p class="pt-1">10.000 ₺</p>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                
+                                                        <div class="row text-start">
+                                                            <div class="col">
+                                                            <div class="card m-1">
+                                                                <div class="card-body  worker">
+                        
+                                                                    <div class="row">
+                                                                        <div class="col-2"><img src="img/worker (2).png" width="80px" alt=""></div>
+                                                                        <div class="col-7">
+                                                                            <h2>Usta</h2>
+                                                                            <p class="worker">Ben saniyede <span>5</span> <span class="itemName">ürün</span> yaparım</p>
+                                                                        </div>
+                                                                        <div class="col-3 text-center">
+                                                                            <button class="btn buy-worker redButton" data-price="25000" onclick="buyWorker(5,25000)">Satın al</button>
+                                                                            <p class="pt-1">25.000 ₺</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                        
+                                                      
+                                                            <div class="row text-start">
+                                                                <div class="col">
+                                                                <div class="card m-1">
+                                                                    <div class="card-body  worker">
+                            
+                                                                        <div class="row">
+                                                                            <div class="col-2"><img src="img/worker (3).png" width="80px" alt=""></div>
+                                                                            <div class="col-7">
+                                                                                <h2>Yönetici</h2>
+                                                                                <p class="worker">Ben saniyede <span>25</span> <span class="itemName">ürün</span> yaparım</p>
+                                                                            </div>
+                                                                            <div class="col-3 text-center">
+                                                                                <button class="btn buy-worker redButton" data-price="100000" onclick="buyWorker(25,100000)">Satın al</button>
+                                                                                <p class="pt-1">100.000 ₺</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                                </div>
+    
+                                                                
+                                                            <div class="row text-start">
+                                                                <div class="col">
+                                                                <div class="card m-1">
+                                                                    <div class="card-body  worker">
+                            
+                                                                        <div class="row">
+                                                                            <div class="col-2"><img src="img/worker (4).png" width="80px" alt=""></div>
+                                                                            <div class="col-7">
+                                                                                <h2>Uzman yönetici</h2>
+                                                                                <p class="worker">Ben saniyede <span>200</span> <span class="itemName">ürün</span> yaparım</p>
+                                                                            </div>
+                                                                            <div class="col-3 text-center">
+                                                                                <button class="btn buy-worker redButton" data-price="600000" onclick="buyWorker(200,600000)">Satın al</button>
+                                                                                <p class="pt-1">600.000 ₺</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                </div>
+                                                                </div>
+                                                                </div>
+                                                </div>
+                                                        
+                                            </div>
+                                        <div class="col-6">
+                                            <div class="tab-title">
+                                                <h2>Verimlilik grafiği</h2>
+                                                <hr>
+                                            </div>
+                                           
+                                                <div class="card mt-3 p-4">
+
+                                                    <div class="container salary">
+                                                        <h4>Maaş dağılımını düzenle</h4>
+                                                        <input type="range" class="form-range" min="5" max="75" step="5" id="customRange">
+                                                        <div class="container d-flex justify-content-center py-3">
+                                                          <input type="button" class="btn btn-secondary" value="Maaşı kaydet" onclick="saveSalary()">
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-4">
+                                                                <p class="text-center mt-2">Verimlilik</p>
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <div class="progress mt-3">
+                                                                    <div class="progress-bar bg-success" id="progressBar1" style="width: 90%;"></div>
+                                                                  </div>
+                                                            </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="text-center mt-2">Memnuniyet</p>
+                                                                </div>
+                                                                <div class="col-8">
+                                                                    <div class="progress mt-3">
+                                                                        <div class="progress-bar bg-danger" id="progressBar2" style="width: 10%;"></div>
+                                                                      </div>
+                                                                </div>
+                                                                  
+                                                                  </div>
+                                                            </div>
+                                                           
+                                                          </div>
+                                     
+                                                    
+                                                </div>
+                                            </div>
+
+                        </div>
+                    </div>
+
+                    <div id="stock" class="tabcontent container-fluid">
+                        <div class="p-4">
+                            <div class="tab-title">
+                                <h2>Ham madde yönetimi</h2>
+                                <hr>
+                            </div>
+
+                            <div class="container">
+                                <div class="card mx-5 text-center">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-5"><img src="img/product/Tshirt-2.jpg" width="300px" alt=""></div>
+                                            <div class="col-2"><i class="fa fa-arrow-right mt-5 pt-4" style="font-size: 80px;"></i></div>
+                                            <div class="col-5"><img src="img/product/Tshirt-1.jpg" width="250px" alt=""></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mx-5 my-3 text-center">
+                                    <p class="my-3"><span class="tc-First itemName ">Üretim</span> yapabilmek için <span>Ham madde</span> al</p>
+                                    
+                                    <div class="container">
+                                        <div class="input-group mx-2 mb-3 d-flex justify-content-center">
+                                            <input type="number" class="form" placeholder="Miktarı giriniz (₺)" id="quantityInput">
+                                            <button class="btn btn-outline-secondary" type="button" onclick="buyRawHalf()">Yarısı</button>
+                                            <button class="btn btn-outline-secondary" type="button" onclick="buyRawAll()">Tümü</button>
+                                          </div>
+                                          <button class="btn btn-success my-4" onclick="buyRawValue()"><span class="rawItemName">Ham madde</span> satın al</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div id="warehouse" class="tabcontent container-fluid">
+                        <div class="p-4">
+                            <div class="tab-title">
+                                <h2>Depo alanı yönetimi</h2>
+                                <hr>
+                            </div>
+                                <!-- Bu kısım Js ile eklenecek -->
+                                <div class="card-area">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="row text-start">
+                                                <div class="col">
+                                                <div class="card m-2">
+                                                    <div class="card-body  worker">
+        
+                                                        <div class="row">
+                                                            <div class="col-2"><img src="img/warehouse/Depo-1.png" width="80px" alt=""></div>
+                                                            <div class="col-7">
+                                                                <h2>Dükkan deposu</h2>
+                                                                <p class="worker">Ürün kapasitesi: <span>600</span> Birim</p>
+                                                            </div>
+                                                            <div class="col-3 text-center">
+                                                                <button class="btn buy-worker greenButton" data-price="10000" onclick="buyWareHouse(600,10000)">Satın al</button>
+                                                                <p class="pt-1">10.000 ₺</p>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+        
+                                            <div class="row text-start">
+                                                    <div class="col">
+                                                    <div class="card m-2">
+                                                        <div class="card-body  worker">
+                
+                                                            <div class="row">
+                                                                <div class="col-2"><img src="img/warehouse/Depo-2.png"width="80px" alt=""></div>
+                                                                <div class="col-7">
+                                                                    <h2>Fabrika deposu</h2>
+                                                                    <p class="worker">Ürün kapasitesi: <span>2.000</span> Birim</p>
+                                                                </div>
+                                                                <div class="col-3 text-center">
+                                                                    <button class="btn buy-worker redButton" data-price="50000" onclick="buyWareHouse(2000,50000)">Satın al</button>
+                                                                    <p class="pt-1">50.000 ₺</p>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                            </div>
+
+                                            <div class="row text-start">
+                                                    <div class="col">
+                                                    <div class="card m-2">
+                                                        <div class="card-body  worker">
+                
+                                                            <div class="row">
+                                                                <div class="col-2"><img src="img/warehouse/Depo-3.png"width="80px" alt=""></div>
+                                                                <div class="col-7">
+                                                                    <h2>Büyük depo</h2>
+                                                                    <p class="worker">Ürün kapasitesi: <span>5.000</span> Birim</p>
+                                                                </div>
+                                                                <div class="col-3 text-center">
+                                                                    <button class="btn buy-worker redButton"  data-price="100000" onclick="buyWareHouse(5000,100000)">Satın al</button>
+                                                                    <p class="pt-1">100.000 ₺</p>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                            </div>
+
+                                        </div>
+                                        
+                                        <div class="col-6">
+                                            <div class="row text-start">
+                                                <div class="col">
+                                                <div class="card m-2">
+                                                    <div class="card-body  worker">
+            
+                                                        <div class="row">
+                                                            <div class="col-2"><img src="img/warehouse/Depo-4.png"width="80px" alt=""></div>
+                                                            <div class="col-7">
+                                                                <h2>Stok binası</h2>
+                                                                <p class="worker">Ürün kapasitesi: <span>20.000</span> Birim</p>
+                                                            </div>
+                                                            <div class="col-3 text-center">
+                                                                <button class="btn buy-worker redButton" data-price="300000" onclick="buyWareHouse(20000,300000)">Satın al</button>
+                                                                <p class="pt-1">300.000 ₺</p>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                                
+                                            <div class="row text-start">
+                                                    <div class="col">
+                                                    <div class="card m-2">
+                                                        <div class="card-body  worker">
+                
+                                                            <div class="row">
+                                                                <div class="col-2"><img src="img/warehouse/Depo-5.png" width="80px" alt=""></div>
+                                                                <div class="col-7">
+                                                                    <h2>Mega stok binası</h2>
+                                                                    <p class="worker">Ürün kapasitesi: <span>50.000</span> Birim</p>
+                                                                </div>
+                                                                <div class="col-3 text-center">
+                                                                    <button class="btn buy-worker redButton" data-price="800000" onclick="buyWareHouse(50000,800000)">Satın al</button>
+                                                                    <p class="pt-1">800.000 ₺</p>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                            </div> 
+                                                    
+                                            <div class="row text-start">
+                                                        <div class="col">
+                                                        <div class="card m-2">
+                                                            <div class="card-body  worker">
+                    
+                                                                <div class="row">
+                                                                    <div class="col-2"><img src="img/warehouse/Depo-6.png" width="80px" alt=""></div>
+                                                                    <div class="col-7">
+                                                                        <h2>Hangar depo</h2>
+                                                                        <p class="worker">Ürün kapasitesi: <span>100.000</span> Birim</p>
+                                                                    </div>
+                                                                    <div class="col-3 text-center">
+                                                                        <button class="btn buy-worker redButton" data-price="1500000" onclick="buyWareHouse(100000,1500000)">Satın al</button>
+                                                                        <p class="pt-1">1.500.000 ₺</p>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>    
+                                </div>       
+                        </div>
+                    </div>
+                    
+                    <div id="sell" class="tabcontent container-fluid">
+                        <div class="p-4">
+                            <div class="tab-title">
+                                <h2>Satış departmanı</h2>
+                                <hr>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                
+                        <div class="container text-center">
+                            <div class="card d-flex justify-content-center p-5 mb-1">
+                                
+                                <p class="tab-description">Ürünün piyasada satılması için en uygun fiyat;</p>
+                                <div class="container text-center sales">
+                                    <div class="card product" id="sale-price">0 ₺</div>
+                                </div>
+                                <div class="image">
+                                    <img src="img/product/Tshirt-1.jpg" width="300px" alt=""></div>
+                            </div>
+                        </div>
+                        
+                            </div>
+                            <div class="col-6">
+                                <div class="container text-center">
+                                    <div class="card d-flex justify-content-center p-5">
+                                        
+                                        <p class="tab-description">Fiyat güncellemesi için kalan süre;</p>
+                                        <div class="timer"><h1 id="countdown">2 dakika 59 saniye</h1></div>
+                                    </div>
+                                </div>
+
+                                <div class="container mt-3">
+                                    <div class="card d-flex justify-content-center p-4">
+                                        <p class="tab-description">Giderler (adet başına)</p>
+                                        <table class="table table-striped" border="2">
+                                            <thead>
+                                              <tr>
+                                                <th>Alıcı</th>
+                                                <th>Gider</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr>
+                                                <td>Gelir vergisi</td>
+                                                <td>-2 ₺</td>
+                                              </tr>
+                                              <tr>
+                                                <td>Çalışanlar</td>
+                                                <td>-1 ₺</td>
+                                              </tr>
+                                              <tr>
+                                                <td>Tedarikçiler</td>
+                                                <td>-1 ₺</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tax_G" class="tabcontent container-fluid">
+                        <div class="p-4">
+                            <div class="tab-title">
+                                <h2>Vergi ödeme merkezi</h2>
+                                <hr>
+                        </div>
+
+                        <div class="container">
+                                <div class="card">
+                                    
+                                <p class="tab-description text-center">Sattığınız her üründen vergi ödemeniz gerekir.</p>
+
+                                <table class="table tax-table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <td>Gelir vergisi sınırınız:</td>
+                                        <td>100.000 ₺</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mevcut verginiz:</td>
+                                        <td id="TaxDisplay2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vergi sınırına geldiğinizde İşletmeniz kapanacaktır.</td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                    <div class="mx-5 my-3 text-center">
+                                        <div class="container">
+                                            <button class="btn btn-success  px-5 mx-5 my-3 " data-bs-toggle="modal" data-bs-target="#myModal">Borcu öde</button>
+                                            <!-- Modal -->
+  
+                                            <div class="modal" id="myModal">
+                                                <div class="modal-dialog modal-md">
+                                                <div class="modal-content">
+                                            
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                    <h4 class="modal-title">Vergi ödeme ekranı</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                            
+                                                    <div class="modal-body">
+                                                        <input type="number" class="form-control" id="quantityInputTax" placeholder="Miktarı giriniz"  aria-describedby="button-addon2">
+                                                    </div>
+                                            
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer d-flex justify-content-center">
+                                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="PayTaxValue()">Girilen miktarı öde</button>
+                                                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" onclick="PayTaxAll()">Tümünü öde</button>
+                                                    </div>
+                                            
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal -->
+
+                                            <button   button class="btn btn-danger  px-5 mx-5 my-3 "data-bs-toggle="modal" data-bs-target="#myModal2">Vergi kaçırmayı dene</button>
+
+                                            <!-- Modal2 -->
+                                            <div class="modal" id="myModal2">
+                                                <div class="modal-dialog modal-lg">
+                                                <div class="modal-content p-3">
+                                            
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                    <h4 class="modal-title">Vergi kaçırma ekranı</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                            
+                                                    <div class="modal-body">
+                                                        <h4>%40 ihtimalle  başarı şansı vardır.</h4>
+                                                        <table class="table table-striped">
+                                                            <tr>
+                                                                <td>1. Yakalanma:</td>
+                                                                <td>2x para cezası</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>2. Yakalanma:</td>
+                                                                <td>3x para + seviye düşüşü</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>3. Yakalanma:</td>
+                                                                <td>Hapis ve şirketin iflası</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Mevcut yakalanma sayısı:</td>
+                                                                <td>0</td>
+                                                            </tr>
+                                                        </table>
+                                                          </div>
+                                            
+                                                    <div class="modal-footer d-flex justify-content-center">
+                                                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="TaxEvasion()">Vergi kaçır!</button>
+                                                    </div>
+                                            
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal2 -->
+                                          
+                                        </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="bank" class="tabcontent container-fluid">
+                        <div class="p-4">
+                            <div class="tab-title">
+                                <h2>Kaçır Bank'a Hoşgeldiniz!</h2>
+                                <hr>
+                            </div>
+                            <div class="card container">
+                                
+                            <p class="tab-description text-center">Buradan borç para alabilirsiniz!</p>
+                            <p class="tab-description-2 text-center">Her 3 dakikada bir %10 faizle tabi ki :)</p>
+                            </div>
+
+                            <div class="card my-3 container">
+                                <p class="tab-description text-center">Ne kadar kredi çekebilirsiniz?</p>
+
+                                <table class="table">
+                                    <tr>
+                                        <td>Bankaya olan borcunuz:</td>
+                                        <td>0 ₺</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Maksimum kredi limitiniz:</td>
+                                        <td>50.000 ₺</td>
+                                    </tr>
+
+                                </table>
+                        
+                                <div class="container d-flex justify-content-center">
+                                    <button class="btn btn-success  px-5 mx-5 my-3 ">Kredi al</button>
+                                <button class="btn btn-danger  px-5 mx-5 my-3 ">Borç öde</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="assets" class="tabcontent container-fluid">
+                        <div class="p-4">
+                            <div class="tab-title">
+                                <h2>Gayrimenkuller</h2>
+                                <hr>
+                            </div>
+                                            <div class="card-area">
+                                                <div class="row text-start">
+                                                    <div class="col">
+                                                    <div class="card m-1">
+                                                        <div class="card-body  worker">
+            
+                                                            <div class="row">
+                                                                <div class="col-2"><img src="img/home/Home-1.jpg" width="120px" alt=""></div>
+                                                                <div class="col-7">
+                                                                    <h2>Müstakil ev</h2>
+                                                                    <p class="worker">2 seviye olmanızı sağlar</p>
+                                                                </div>
+                                                                <div class="col-3 text-center">
+                                                                    <button class="btn buy-worker AssetButton" data-bs-toggle="modal" data-bs-target="#myModal5" data-value="level-2" data-price="200000" onclick="buyAsset(200000,2)" >Mülkü satın al</button>
+                                                                    <p class="pt-1">200.000 ₺</p>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    </div>
+            
+                                                    <div class="row text-start">
+                                                        <div class="col">
+                                                        <div class="card m-1">
+                                                            <div class="card-body  worker">
+                    
+                                                                <div class="row">
+                                                                    <div class="col-2"><img src="img/home/Home-2.jpg" width="120px" alt=""></div>
+                                                                    <div class="col-7">
+                                                                        <h2>Villa</h2>
+                                                                        <p class="worker">3 seviye olmanızı sağlar</p>
+                                                                    </div>
+                                                                    <div class="col-3 text-center">
+                                                                        <button class="btn buy-worker AssetButton" data-bs-toggle="modal" data-bs-target="#myModal5" data-value="level-3" data-price="600000" onclick="buyAsset(600000,3)">Mülkü satın al</button>
+                                                                        <p class="pt-1">600.000 ₺</p>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                    
+                                                  
+                                                        <div class="row text-start">
+                                                            <div class="col">
+                                                            <div class="card m-1">
+                                                                <div class="card-body  worker">
+                        
+                                                                    <div class="row">
+                                                                        <div class="col-2"><img src="img/home/Home-3.jpg" width="120px" alt=""></div>
+                                                                        <div class="col-7">
+                                                                            <h2>Malikane</h2>
+                                                                            <p class="worker">4 seviye olmanızı sağlar</p>
+                                                                        </div>
+                                                                        <div class="col-3 text-center">
+                                                                            <button class="btn buy-worker AssetButton" data-bs-toggle="modal" data-bs-target="#myModal5" data-value="level-4" data-price="1500000" onclick="buyAsset(1500000,4)">Mülkü satın al</button>
+                                                                            <p class="pt-1">1.500.000 ₺</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+
+                                                            
+                                                        <div class="row text-start">
+                                                            <div class="col">
+                                                            <div class="card m-1">
+                                                                <div class="card-body  worker">
+                        
+                                                                    <div class="row">
+                                                                        <div class="col-2"><img src="img/home/Home-4.jpg" width="120px" alt=""></div>
+                                                                        <div class="col-7">
+                                                                            <h2>900 odalı saray</h2>
+                                                                            <p class="worker">5 seviye olmanızı sağlar</p>
+                                                                        </div>
+                                                                        <div class="col-3 text-center">
+                                                                            <button class="btn buy-worker AssetButton" data-bs-toggle="modal" data-bs-target="#myModal5" data-value="level-5" data-price="100000000" onclick="buyAsset(10000000,5)">Mülkü satın al</button>
+                                                                            <p class="pt-1">10.000.000 ₺</p>
+                                                                        </div>
+                                                                    </div>
+                                                       </div>
+                                                </div>
+                                         </div>
+                                    </div>
+                                      <!-- Modal5 -->
+                                    <div class="modal" id="myModal5">
+                                        <div class="modal-dialog modal-md">
+                                        <div class="modal-content bg-success p-3">
+                                    
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                            <h4 class="modal-title text-light">Seviye atladın!</h4>
+                                            </div>
+                                    
+                                            <div class="modal-body">
+                                                <div class="card my-2">
+                                                  <div class="my-2 d-flex justify-content-center">
+                                                    <h5>Açılan özellikler</h5>
+                                                  </div>
+                                                </div>
+                                                <table class="bg-light table table-striped">
+                                                    <tbody>
+                                                      <tr>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">Üst vergi limiti:</th>
+                                                        <td id="modalTax">50.000 ₺</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">Banka kredi limiti</th>
+                                                        <td id="modalBank">40.000 ₺</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <th scope="row">Artık işe alınabilir: </th>
+                                                        <td id="modalWorker">Usta işçi</td>
+                                                      </tr>
+                                                    </tbody>
+                                                  </table>
+                                                  
+                                            </div>
+                                    
+                                            <div class="d-flex justify-content-center">
+                                                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal" > Teşekkürler!</button>
+                                            </div>
+                                    
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal5 -->
+                            </div>
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+        
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="script.js"></script>
+</body>
+</html>
