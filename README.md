@@ -1,9 +1,7 @@
 # Business-Game
 It's not responsive, only pc
 
-Açlış
-![image](https://github.com/Umitt96/Business-Game/assets/55894059/a6a63662-8af9-4b32-a5ce-b8d58f55c993)
-
+Genel bakış
 ![image](https://github.com/Umitt96/Business-Game/assets/55894059/301c9274-fdb7-4142-9a16-7d3f2bb5a22d)
 
 İnsan kaynakları
