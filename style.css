@@ -235,6 +235,7 @@ body {
 }
 
 .salary .progress-bar{ background: linear-gradient(to right, red, rgb(0, 196, 0));}
+.personals .progress-bar{ background: linear-gradient(to right, red, rgb(0, 196, 0));}
 
 .hide{ display: none;}
 
@@ -242,4 +243,12 @@ body {
 
 .modal a{
   text-decoration: none;
+}
+
+.hoverHelp{
+  background-color: transparent;
+  color: black;
+  outline: none;
+  border: none;
+  font-size: 25px;
 }

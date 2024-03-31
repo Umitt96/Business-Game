@@ -1,5 +1,5 @@
 
-let wallet = 1000000;
+let wallet = 20000;
 let price;
 let product = 1;
 let productionRate = 0;
@@ -15,6 +15,7 @@ let caughtCount = 0;
 let sector = "kimbap";
 let BankCurrLimit = 0;
 let BankMaxLimit = 40000;
+let TaxMaxLimit = 50000;
 let countdown;
 
 // DOM elemanlarını al
@@ -29,6 +30,7 @@ const rawMadeDisplay = document.getElementById("rawMade");
 const TotalWorkers = document.getElementById("totalWorkers");
 const TaxDisplay = document.getElementById("tax");
 const TaxDisplay2 = document.getElementById("TaxDisplay2");
+const TaxMaxDisplay = document.getElementById("TaxMaxDisplay");
 const LevelDisplay = document.getElementById("level");
 const rawMadeBar = document.getElementById("rawMadeBar");
 const wareHouseBar = document.getElementById("wareHouseBar");
@@ -37,10 +39,12 @@ const customRange = document.getElementById("customRange");
 const modalTax = document.getElementById("modalTax");
 const modalBank = document.getElementById("modalBank");
 const modalWorker = document.getElementById("modalWorker");
+const modalWare = document.getElementById("modalWare");
 const taxCaught = document.getElementById("taxCaught");
 const Credit = document.getElementById("CurCredit");
 const Credit2 = document.getElementById("CurCredit2");
 const MaxCredit = document.getElementById("MaxCredit");
+const SalaryText = document.getElementById("SalaryText");
 
 const buyButtons = document.querySelectorAll(".buy-worker");
 const AssetButtons = document.querySelectorAll('.AssetButton');
@@ -142,6 +146,7 @@ function updateDisplays() {
   TotalWorkers.innerText = addCommas(CurrWorker);
   PPerSec.innerText = addCommas(productionRate);
   LevelDisplay.innerText = playerLevel;
+  updateTax();
 
   if (wallet < 0) {
     walletDisplay.classList.add('neg');
@@ -150,25 +155,25 @@ function updateDisplays() {
   }
 }
 updateBank();
-updateTax();
 updateDisplays()
 
 function produce() {
-  if (Timerdifficulty !== 0 && rawMade > 50 && product < wareHouse) {
-    rawMade = Math.max(rawMade - 5 * productionRate, 0);
-    product += productionRate;
-    updateRawMadeBar(rawMade - product, rawMade);
-    updateWareHouseBar(product, wareHouse);
-    updateDisplays();
-  } else {
-    if (Timerdifficulty !== 0 && rawMade <= 50) {
+  if (Timerdifficulty !== 0) {
+    if (rawMade <= 50) {
       toast("Ham madde tükendi, üretim durduruldu.", "#CC3337");
-    } else if (Timerdifficulty !== 0 && product >= wareHouse) {
+    } else if (product >= wareHouse) {
       toast("Depo doldu!", "#CC3337");
+    } else if (tax >= TaxMaxLimit) {
+      toast("Vergi limitini aştınız! Üretime devam edemezsiniz...", "#CC3337");
+    } else {
+      rawMade = Math.max(rawMade - 5 * productionRate, 0);
+      product += productionRate;
+      updateRawMadeBar(rawMade - product, rawMade);
+      updateWareHouseBar(product, wareHouse);
+      updateDisplays();
     }
   }
 }
-
 
 function updateTax(){
   if(tax == 0){
@@ -176,11 +181,12 @@ function updateTax(){
     TaxDisplay2.innerText = "0 ₺";
   }
   else{
-    TaxDisplay.innerText = tax + " ₺";
-    TaxDisplay2.innerText = tax + " ₺";
+    TaxDisplay.innerText =  addCommas(tax) + " ₺";
+    TaxDisplay2.innerText = addCommas(tax) + " ₺";
   }
-}
 
+  TaxMaxDisplay.innerText = addCommas(TaxMaxLimit) + " ₺";
+}
 
 function updateBank(){
   if(tax == 0){
@@ -205,8 +211,10 @@ function Sell(){
   switch(Timerdifficulty){
     case 1000:
       tax += product+1;
+      break;
     case 300:
-      tax+= product+3;
+      tax+= product+5;
+      break;
   }
   product = 0;
   updateDisplays();
@@ -242,7 +250,6 @@ function buyRawValue() {
     toast("Ham madde satın alındı: " + inputQuantity,"#37CC33");
   }
 }
-
 
 /* Vergi ödeme modal'ı */
 function PayTaxAll(){
@@ -300,7 +307,7 @@ function TaxEvasion(){
   }
 }
 }else{
-  toast("Bu kadar az vergiyi kaçıramazsın :/");
+  toast("Bu kadar az vergiyi kaçıramazsınız :/");
 }
 
 }
@@ -326,8 +333,9 @@ function updateRawMadeBar(rawMadeValue, maxValue) {
  function updateButtonColors() {
   buyButtons.forEach(button => {
     const workPrice = parseInt(button.getAttribute("data-price"));
+    const workLevel = parseInt(button.getAttribute("data-level"));
 
-    if (wallet >= workPrice) {
+    if (wallet >= workPrice && playerLevel >= workLevel) {
       button.classList.add("greenButton"); 
       button.classList.remove("redButton"); 
     } else {
@@ -351,9 +359,15 @@ function saveSalary() {
   if(playerLevel >= 2)
   {
   value = parseInt(customRange.value);
-  salary =     value;
+  salary = value;
 
   toast("Çalışan memnuniyeti: %" + salary); 
+  if(salary <= 50){
+    SalaryText.innerText = "İşçiler senin hakkında kötü konuşuyor!";
+  }
+  else if(salary >= 60){
+    SalaryText.innerText = "İşçiler halinden memnun görünüyor!";
+  }
 
   setTimeout(function() {
     if(salary <= 30){
@@ -370,7 +384,7 @@ function saveSalary() {
   }, (Math.floor(Math.random() * 5000) + 5000)); 
   }
   else{
-    toast("Bunu yapmak için 2 seviye ve üstü olman gerekir!","#CC3337")
+    toast("Bunu yapmak için 2 seviye ve üstü olmanız gerekir!","#CC3337")
   }
 }
 
@@ -416,11 +430,15 @@ function buyAsset(AssetPrice,levelValue) {
       modalTax.innerText =  "80.000 ₺";
       modalBank.innerText = "40.000 ₺";
       modalWorker.innerText = "Usta işçi";
+      modalWare.innerText = "Büyük depo, Stok binası";
+
+      TaxMaxLimit = 80000;
+      BankMaxLimit  = 40000;
 
       setTimeout(() => {
         toast("Bir yüksek getirisi olan bir şirketi satın aldın!", "#37CC33")
         wallet += 50000;
-        toast("Kazanılan miktar: 50.000 ₺", "#37CC33")
+        toast("Kazanılan miktar: +50.000 ₺", "#37CC33")
         updateDisplays();
     }, randomTime);
       break;
@@ -428,11 +446,15 @@ function buyAsset(AssetPrice,levelValue) {
       modalTax.innerText =  "150.000 ₺";
       modalBank.innerText = "100.000 ₺";
       modalWorker.innerText = "Yönetici";
+      modalWare.innerText = "Mega stok binası";
+
+      TaxMaxLimit = 150000;
+      BankMaxLimit  = 100000;
 
     setTimeout(() => {
         toast("Eve giderken kaza yaptın :(","#CC3337")
         wallet -= 200000;
-        toast("Hastane masrafları: 20.000 ₺","#CC3337")
+        toast("Hastane masrafları: -20.000 ₺","#CC3337")
         updateDisplays();
     }, randomTime);
 
@@ -442,6 +464,10 @@ function buyAsset(AssetPrice,levelValue) {
         modalTax.innerText =  "400.000 ₺";
         modalBank.innerText = "500.000 ₺";
         modalWorker.innerText = "Uzman yönetici";
+        modalWare.innerText = "Hangar depo";
+        
+        TaxMaxLimit = 400000;
+        BankMaxLimit  = 40000;
         break;
   }
 }
@@ -476,7 +502,7 @@ function getRandomNumber() {
 function TakeCredit(){
   
   let inputCredit = parseInt(document.querySelector('#inputCredit').value);
-  MaxCredit.innerText = BankMaxLimit+ " ₺";
+  MaxCreditDisplay.innerText = addCommas(BankMaxLimit)+ " ₺";
   
   if (inputCredit === "" || isNaN(inputCredit) || inputCredit <= 0) {
     toast("Geçersiz miktar!", "#CC3337");
@@ -486,6 +512,7 @@ function TakeCredit(){
     wallet += inputCredit;
     BankCurrLimit += inputCredit;
     updateBank();
+    updateButtonColors();
     toast("Bankadan Kredi çekildi: " + inputCredit + " ₺", "#37CC33");
   }
 }
