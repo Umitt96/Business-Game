@@ -7,6 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href= "https://cdn.jsdelivr.net/npm/billboard.js/dist/billboard.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,7 +21,7 @@
             
                     <!-- Modal Header -->
                     <div class="modal-header">
-                    <h4 class="modal-title">Yapımcı hakkında</h4>
+                    <h2 class="modal-title">Oyun hakkında</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
             
@@ -34,7 +35,7 @@
                     </div>
             
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" > Youtube Kanalı</button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" ><a href="https://www.youtube.com/@lyrotech90"> Youtube Kanalı</a></button>
                     </div>
             
                 </div>
@@ -110,7 +111,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-5 col-sm-6">
                     <div class="tab container">
-                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'home')">
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'home')" id="defaultOpen">
                             <span>Genel Bakış</span> <i class="fa fa-home"></i>
                         </button>
                         <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'people')">
@@ -133,7 +134,7 @@
                         <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'bank')">
                             Banka <i class="fa fa-bank"></i>
                         </button>
-                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'assets')" id="defaultOpen">
+                        <button class="tablinks d-flex justify-content-between" onclick="openCity(event, 'assets')">
                             Gayrimenkul <i class="fa fa-bank"></i>
                         </button>
                         
@@ -237,8 +238,8 @@
                                                             </div>
                                                             <div class="col">
                                                               <div class="card my-2">
-                                                                <div class="card-body text-start bg-success"> <!-- renkler sonra değişecek --> 
-                                                                  <p class="card-text text-light text-center" id="tax">Güncel Borç bulunmamaktadır!</p>
+                                                                <div class="card-body text-start"> 
+                                                                  <p class="card-text  text-center" id="tax">Güncel Borç bulunmamaktadır!</p>
                                                                 </div>
                                                               </div>
                                                             </div>
@@ -256,8 +257,8 @@
                                                             </div>
                                                             <div class="col">
                                                               <div class="card my-2">
-                                                                <div class="card-body text-start bg-danger"><!-- renkler sonra değişecek --> 
-                                                                  <p class="card-text text-light">Güncel Borç bulunmamaktadır!</p>
+                                                                <div class="card-body text-start">
+                                                                  <p class="card-text  text-center" id="CurCredit">Güncel Borç bulunmamaktadır!</p>
                                                                 </div>
                                                               </div>
                                                             </div>
@@ -456,9 +457,24 @@
                                 <div class="card mx-5 text-center">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-5"><img src="img/product/Tshirt-2.jpg" width="300px" alt=""></div>
+                                            <div class="col-5 d-flex justify-content-center">
+                                                <div id="sectorPhoto2">
+                                                    <img width="300px" style="display: none;" id="kimbapFoto2"      src="img/product/kimbap_2.jpg" alt="Yemek" >
+                                                    <img width="300px" style="display: none;"id="gömlekFoto2"    src="img/product/gömlek_2.jpg" alt="Tekstil" >
+                                                    <img width="300px" style="display: none;"id="bilgisayarFoto2" src="img/product/bilgisayar_2.png" alt="Elektronik" >
+                                                    <img width="300px" style="display: none;"id="arabaFoto2"   src="img/product/araba_2.png" alt="Otomotiv" >
+                                                  </div>
+                                               
+                                            </div>
                                             <div class="col-2"><i class="fa fa-arrow-right mt-5 pt-4" style="font-size: 80px;"></i></div>
-                                            <div class="col-5"><img src="img/product/Tshirt-1.jpg" width="250px" alt=""></div>
+                                            <div class="col-5  d-flex justify-content-center">
+                                                <div id="sectorPhoto3">
+                                                    <img width="300px" style="display: none;" id="kimbapFoto3"      src="img/product/kimbap_1.jpg" alt="Yemek" >
+                                                    <img width="300px" style="display: none;"id="gömlekFoto3"    src="img/product/gömlek_1.jpg" alt="Tekstil" >
+                                                    <img width="300px" style="display: none;"id="bilgisayarFoto3" src="img/product/bilgisayar_1.png" alt="Elektronik" >
+                                                    <img width="300px" style="display: none;"id="arabaFoto3"   src="img/product/araba_1.png" alt="Otomotiv" >
+                                                  </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -648,8 +664,14 @@
                                 <div class="container text-center sales">
                                     <div class="card product" id="sale-price">0 ₺</div>
                                 </div>
-                                <div class="image">
-                                    <img src="img/product/Tshirt-1.jpg" width="300px" alt=""></div>
+                                <div class="image d-flex justify-content-center">
+                                    <div id="sectorPhoto1">
+                                        <img width="300px" style="display: none;" id="kimbapFoto"      src="img/product/kimbap_1.jpg" alt="Yemek" >
+                                        <img width="300px" style="display: none;"id="gömlekFoto"    src="img/product/gömlek_1.jpg" alt="Tekstil" >
+                                        <img width="300px" style="display: none;"id="bilgisayarFoto" src="img/product/bilgisayar_1.png" alt="Elektronik" >
+                                        <img width="300px" style="display: none;"id="arabaFoto"   src="img/product/araba_1.png" alt="Otomotiv" >
+                                      </div>
+                               </div>
                             </div>
                         </div>
                         
@@ -767,7 +789,8 @@
                                                     </div>
                                             
                                                     <div class="modal-body">
-                                                        <h4>%40 ihtimalle  başarı şansı vardır.</h4>
+                                                        <h4>%50 ihtimalle  başarı şansı vardır.</h4>
+                                                        <h4>2. seviyede açılır ve en az 10.000 ₺ 'lik vergi gerekir</h4>
                                                         <table class="table table-striped">
                                                             <tr>
                                                                 <td>1. Yakalanma:</td>
@@ -775,7 +798,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>2. Yakalanma:</td>
-                                                                <td>3x para + seviye düşüşü</td>
+                                                                <td>5x para + seviye düşüşü</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>3. Yakalanma:</td>
@@ -783,7 +806,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>Mevcut yakalanma sayısı:</td>
-                                                                <td>0</td>
+                                                                <td id="taxCaught">0</td>
                                                             </tr>
                                                         </table>
                                                           </div>
@@ -822,18 +845,25 @@
                                 <table class="table">
                                     <tr>
                                         <td>Bankaya olan borcunuz:</td>
-                                        <td>0 ₺</td>
+                                        <td id="CurCredit2">0 ₺</td>
                                     </tr>
                                     <tr>
                                         <td>Maksimum kredi limitiniz:</td>
-                                        <td>50.000 ₺</td>
+                                        <td id="MaxCredit"></td>
                                     </tr>
 
                                 </table>
+
+                                <div class="container d-flex justify-content-center">
+                                    <div class="input-group w-50">
+                                        <input id="inputCredit" type="number" class="form-control" placeholder="Miktarı giriniz">
+                                        <span class="input-group-text">₺</span>
+                                    </div>
+                                </div>
                         
                                 <div class="container d-flex justify-content-center">
-                                    <button class="btn btn-success  px-5 mx-5 my-3 ">Kredi al</button>
-                                <button class="btn btn-danger  px-5 mx-5 my-3 ">Borç öde</button>
+                                    <button class="btn btn-success  px-5 mx-5 my-3 " onclick="TakeCredit()">Kredi al</button>
+                                <button class="btn btn-danger  px-5 mx-5 my-3 " onclick="PayCredit()">Borç öde</button>
                                 </div>
                             </div>
                         </div>
@@ -923,13 +953,42 @@
                                                                         <div class="col-2"><img src="img/home/Home-4.jpg" width="120px" alt=""></div>
                                                                         <div class="col-7">
                                                                             <h2>900 odalı saray</h2>
-                                                                            <p class="worker">5 seviye olmanızı sağlar</p>
+                                                                            <p class="worker">Oyunu kazanmanı sağlar!</p>
                                                                         </div>
                                                                         <div class="col-3 text-center">
-                                                                            <button class="btn buy-worker AssetButton" data-bs-toggle="modal" data-bs-target="#myModal5" data-value="level-5" data-price="100000000" onclick="buyAsset(10000000,5)">Mülkü satın al</button>
+                                                                            <button class="btn buy-worker AssetButton" data-bs-toggle="modal" data-bs-target="#myModal6" data-value="level-5" data-price="100000000" onclick="FinishGame(100000000)">Mülkü satın al</button>
                                                                             <p class="pt-1">10.000.000 ₺</p>
                                                                         </div>
                                                                     </div>
+                                                                        <!-- Modal6 -->
+                                                                        <div class="modal" id="myModal6">
+                                                                            <div class="modal-dialog modal-lg">
+                                                                            <div class="modal-content bg-success p-3">
+                                                                        
+                                                                                <!-- Modal Header -->
+                                                                                <div class="modal-header">
+                                                                                <h4 class="modal-title text-light">Oyunu kazandın!</h4>
+                                                                                </div>
+                                                                        
+                                                                                <div class="modal-body">
+                                                                                    <div class="my-2">
+                                                                                    <div class="my-2 text-light">
+                                                                                        <h5>900 odalı sarayı satın alarak en yüksek prestij seviyesine ulaştın!</h5>
+                                                                                        <h5>Piyasanın en iyi işletmesisin artık!</h5>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                  
+                                                                                    
+                                                                                </div>
+                                                                        
+                                                                                <div class="container">
+                                                                                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal" > Benim için zevkti :)</button>
+                                                                                </div>
+                                                                        
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Modal6 -->
                                                        </div>
                                                 </div>
                                          </div>
@@ -987,8 +1046,8 @@
             </div>
         </div>
         
-        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
         <script src="script.js"></script>
 </body>
 </html>

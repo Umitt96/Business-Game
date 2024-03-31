@@ -198,6 +198,10 @@ body {
   color: #0bc80b;
 }
 
+#wallet.neg{
+  color: #c80b0b;
+}
+
 .greenButton {
   background-color: green;
   color: white;
@@ -235,3 +239,7 @@ body {
 .hide{ display: none;}
 
 .tc-First{ text-transform: capitalize;}
+
+.modal a{
+  text-decoration: none;
+}
